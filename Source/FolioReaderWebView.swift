@@ -60,8 +60,8 @@ open class FolioReaderWebView: UIWebView {
             if action == #selector(highlight(_:))
                 || action == #selector(highlightWithNote(_:))
                 || action == #selector(updateHighlightNote(_:))
-                || (action == #selector(define(_:)) && isOneWord)
-                || (action == #selector(play(_:)) && (book.hasAudio || readerConfig.enableTTS))
+                //|| (action == #selector(define(_:)) && isOneWord)
+                //|| (action == #selector(play(_:)) && (book.hasAudio || readerConfig.enableTTS))
                 || (action == #selector(share(_:)) && readerConfig.allowSharing)
                 || (action == #selector(copy(_:)) && readerConfig.allowSharing) {
                 return true
@@ -173,7 +173,7 @@ open class FolioReaderWebView: UIWebView {
         do {
             let json = try JSONSerialization.jsonObject(with: jsonData!, options: []) as! NSArray
             let dic = json.firstObject as! [String: String]
-            let rect = CGRectFromString(dic["rect"]!)
+//            let rect = CGRectFromString(dic["rect"]!)
             guard let startOffset = dic["startOffset"] else { return }
             guard let endOffset = dic["endOffset"] else { return }
             
@@ -200,19 +200,19 @@ open class FolioReaderWebView: UIWebView {
         }
     }
 
-    @objc func define(_ sender: UIMenuController?) {
-        guard let selectedText = js("getSelectedText()") else {
-            return
-        }
-
-        self.setMenuVisible(false)
-        self.clearTextSelection()
-
-        let vc = UIReferenceLibraryViewController(term: selectedText)
-        vc.view.tintColor = self.readerConfig.tintColor
-        guard let readerContainer = readerContainer else { return }
-        readerContainer.show(vc, sender: nil)
-    }
+//    @objc func define(_ sender: UIMenuController?) {
+//        guard let selectedText = js("getSelectedText()") else {
+//            return
+//        }
+//
+//        self.setMenuVisible(false)
+//        self.clearTextSelection()
+//
+//        let vc = UIReferenceLibraryViewController(term: selectedText)
+//        vc.view.tintColor = self.readerConfig.tintColor
+//        guard let readerContainer = readerContainer else { return }
+//        readerContainer.show(vc, sender: nil)
+//    }
 
     @objc func play(_ sender: UIMenuController?) {
         self.folioReader.readerAudioPlayer?.play()
@@ -261,7 +261,7 @@ open class FolioReaderWebView: UIWebView {
         isShare = options
 
         let colors = UIImage(readerImageNamed: "colors-marker")
-        let share = UIImage(readerImageNamed: "share-marker")
+        //let share = UIImage(readerImageNamed: "share-marker")
         let remove = UIImage(readerImageNamed: "no-marker")
         let yellow = UIImage(readerImageNamed: "yellow-marker")
         let green = UIImage(readerImageNamed: "green-marker")
@@ -274,14 +274,15 @@ open class FolioReaderWebView: UIWebView {
         let highlightItem = UIMenuItem(title: self.readerConfig.localizedHighlightMenu, action: #selector(highlight(_:)))
         let highlightNoteItem = UIMenuItem(title: self.readerConfig.localizedHighlightNote, action: #selector(highlightWithNote(_:)))
         let editNoteItem = UIMenuItem(title: self.readerConfig.localizedHighlightNote, action: #selector(updateHighlightNote(_:)))
-        let playAudioItem = UIMenuItem(title: self.readerConfig.localizedPlayMenu, action: #selector(play(_:)))
-        let defineItem = UIMenuItem(title: self.readerConfig.localizedDefineMenu, action: #selector(define(_:)))
+        //let playAudioItem = UIMenuItem(title: self.readerConfig.localizedPlayMenu, action: #selector(play(_:)))
+        //let defineItem = UIMenuItem(title: self.readerConfig.localizedDefineMenu, action: #selector(define(_:)))
         let colorsItem = UIMenuItem(title: "C", image: colors) { [weak self] _ in
             self?.colors(menuController)
         }
-        let shareItem = UIMenuItem(title: "S", image: share) { [weak self] _ in
-            self?.share(menuController)
-        }
+        //let shareItem = UIMenuItem(title: "S", image: share) { [weak self] _ in
+        //    self?.share(menuController)
+        //}
+        
         let removeItem = UIMenuItem(title: "R", image: remove) { [weak self] _ in
             self?.remove(menuController)
         }
@@ -304,21 +305,20 @@ open class FolioReaderWebView: UIWebView {
         var menuItems: [UIMenuItem] = []
 
         // menu on existing highlight
-//        if isShare {
-//            menuItems = [colorsItem, editNoteItem, removeItem]
-//            
+        if isShare {
+            menuItems = [colorsItem, editNoteItem, removeItem]
+            
 //            if (self.readerConfig.allowSharing == true) {
 //                menuItems.append(shareItem)
 //            }
-//            
-//            isShare = false
-//        } else
-            if isColors {
+            
+            isShare = false
+        } else if isColors {
             // menu for selecting highlight color
             menuItems = [yellowItem, greenItem, blueItem, pinkItem, underlineItem]
         } else {
             // default menu
-            menuItems = [highlightItem, defineItem, highlightNoteItem]
+            menuItems = [highlightItem, highlightNoteItem]
 
 //            if self.book.hasAudio || self.readerConfig.enableTTS {
 //                menuItems.insert(playAudioItem, at: 0)
