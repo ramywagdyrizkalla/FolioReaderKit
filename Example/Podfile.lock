@@ -45,7 +45,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   FolioReaderKit:
-    :commit: 85a9572ab6d65c1f20a9226a61e6e1823be8c21a
+    :commit: fcc32e445a6b962c7cb978bbc0060c2ef0a79efd
     :git: https://github.com/ramywagdyrizkalla/FolioReaderKit.git
 
 SPEC CHECKSUMS:

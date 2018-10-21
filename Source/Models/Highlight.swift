@@ -22,6 +22,9 @@ open class Highlight: Object {
     @objc open dynamic var startOffset: Int = -1
     @objc open dynamic var endOffset: Int = -1
     @objc open dynamic var noteForHighlight: String?
+    
+    var highLightCoreDataSaveDelegate: EPUBPersistenceProtocol?
+    static var highLightCoreDataRetrieveDelegate: EPUBPersistenceProtocol?
 
     override open class func primaryKey()-> String {
         return "highlightId"
