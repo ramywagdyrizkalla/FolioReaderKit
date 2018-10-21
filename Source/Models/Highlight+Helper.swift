@@ -253,8 +253,8 @@ extension Highlight {
             highlight.type = HighlightStyle.styleForClass(str.substring(with: match.range(at: 1))).rawValue
             highlight.date = Date()
             highlight.content = Highlight.removeSentenceSpanTag(str.substring(with: match.range(at: 2)))
-            highlight.contentPre = "" //Highlight.removeSentenceSpanTag(contentPre)
-            highlight.contentPost = "" //Highlight.removeSentenceSpanTag(contentPost)
+            highlight.contentPre = Highlight.removeSentenceSpanTag(contentPre)
+            highlight.contentPost = Highlight.removeSentenceSpanTag(contentPost)
             highlight.page = matchingHighlight.currentPage
             highlight.bookId = matchingHighlight.bookId
             highlight.startOffset = (Int(matchingHighlight.startOffset) ?? -1)
