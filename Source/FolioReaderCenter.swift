@@ -260,8 +260,8 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
     func configureNavBarButtons() {
 
         // Navbar buttons
-        let shareIcon = UIImage(readerImageNamed: "icon-navbar-share")?.ignoreSystemTint(withConfiguration: self.readerConfig)
-        let audioIcon = UIImage(readerImageNamed: "icon-navbar-tts")?.ignoreSystemTint(withConfiguration: self.readerConfig) //man-speech-icon
+        //let shareIcon = UIImage(readerImageNamed: "icon-navbar-share")?.ignoreSystemTint(withConfiguration: self.readerConfig)
+        //let audioIcon = UIImage(readerImageNamed: "icon-navbar-tts")?.ignoreSystemTint(withConfiguration: self.readerConfig) //man-speech-icon
         let closeIcon = UIImage(readerImageNamed: "icon-navbar-close")?.ignoreSystemTint(withConfiguration: self.readerConfig)
         let tocIcon = UIImage(readerImageNamed: "icon-navbar-toc")?.ignoreSystemTint(withConfiguration: self.readerConfig)
         let fontIcon = UIImage(readerImageNamed: "icon-navbar-font")?.ignoreSystemTint(withConfiguration: self.readerConfig)
@@ -274,13 +274,13 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 
         var rightBarIcons = [UIBarButtonItem]()
 
-        if (self.readerConfig.allowSharing == true) {
-            rightBarIcons.append(UIBarButtonItem(image: shareIcon, style: .plain, target: self, action:#selector(shareChapter(_:))))
-        }
+//        if (self.readerConfig.allowSharing == true) {
+//            rightBarIcons.append(UIBarButtonItem(image: shareIcon, style: .plain, target: self, action:#selector(shareChapter(_:))))
+//        }
 
-        if self.book.hasAudio || self.readerConfig.enableTTS {
-            rightBarIcons.append(UIBarButtonItem(image: audioIcon, style: .plain, target: self, action:#selector(presentPlayerMenu(_:))))
-        }
+//        if self.book.hasAudio || self.readerConfig.enableTTS {
+//            rightBarIcons.append(UIBarButtonItem(image: audioIcon, style: .plain, target: self, action:#selector(presentPlayerMenu(_:))))
+//        }
 
         let font = UIBarButtonItem(image: fontIcon, style: .plain, target: self, action: #selector(presentFontsMenu))
         font.width = space
@@ -852,7 +852,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         guard let page = currentPage, let webView = page.webView else { return 0 }
         
         let pageSize = self.readerConfig.isDirection(pageHeight, self.pageWidth, pageHeight)
-        let contentSize = page.webView?.scrollView.contentSize.forDirection(withConfiguration: self.readerConfig) ?? 0
+        let contentSize = webView.scrollView.contentSize.forDirection(withConfiguration: self.readerConfig)
         let totalPages = ((pageSize != 0) ? Int(ceil(contentSize / pageSize)) : 0)
         let currentPageItem = getCurrentPageItemNumber()
         
@@ -1072,64 +1072,64 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
     /**
      Sharing chapter method.
      */
-    @objc func shareChapter(_ sender: UIBarButtonItem) {
-        guard let currentPage = currentPage else { return }
-
-        if let chapterText = currentPage.webView?.js("getBodyText()") {
-            let htmlText = chapterText.replacingOccurrences(of: "[\\n\\r]+", with: "<br />", options: .regularExpression)
-            var subject = readerConfig.localizedShareChapterSubject
-            var html = ""
-            var text = ""
-            var bookTitle = ""
-            var chapterName = ""
-            var authorName = ""
-            var shareItems = [AnyObject]()
-
-            // Get book title
-            if let title = self.book.title {
-                bookTitle = title
-                subject += " “\(title)”"
-            }
-
-            // Get chapter name
-            if let chapter = getCurrentChapterName() {
-                chapterName = chapter
-            }
-
-            // Get author name
-            if let author = self.book.metadata.creators.first {
-                authorName = author.name
-            }
-
-            // Sharing html and text
-            html = "<html><body>"
-            html += "<br /><hr> <p>\(htmlText)</p> <hr><br />"
-            html += "<center><p style=\"color:gray\">"+readerConfig.localizedShareAllExcerptsFrom+"</p>"
-            html += "<b>\(bookTitle)</b><br />"
-            html += readerConfig.localizedShareBy+" <i>\(authorName)</i><br />"
-
-            if let bookShareLink = readerConfig.localizedShareWebLink {
-                html += "<a href=\"\(bookShareLink.absoluteString)\">\(bookShareLink.absoluteString)</a>"
-                shareItems.append(bookShareLink as AnyObject)
-            }
-
-            html += "</center></body></html>"
-            text = "\(chapterName)\n\n“\(chapterText)” \n\n\(bookTitle) \n\(readerConfig.localizedShareBy) \(authorName)"
-
-            let act = FolioReaderSharingProvider(subject: subject, text: text, html: html)
-            shareItems.insert(contentsOf: [act, "" as AnyObject], at: 0)
-
-            let activityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
-            activityViewController.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToVimeo]
-
-            // Pop style on iPad
-            if let actv = activityViewController.popoverPresentationController {
-                actv.barButtonItem = sender
-            }
-
-            present(activityViewController, animated: true, completion: nil)
-        }
-    }
+//    @objc func shareChapter(_ sender: UIBarButtonItem) {
+//        guard let currentPage = currentPage else { return }
+//
+//        if let chapterText = currentPage.webView?.js("getBodyText()") {
+//            let htmlText = chapterText.replacingOccurrences(of: "[\\n\\r]+", with: "<br />", options: .regularExpression)
+//            var subject = readerConfig.localizedShareChapterSubject
+//            var html = ""
+//            var text = ""
+//            var bookTitle = ""
+//            var chapterName = ""
+//            var authorName = ""
+//            var shareItems = [AnyObject]()
+//
+//            // Get book title
+//            if let title = self.book.title {
+//                bookTitle = title
+//                subject += " “\(title)”"
+//            }
+//
+//            // Get chapter name
+//            if let chapter = getCurrentChapterName() {
+//                chapterName = chapter
+//            }
+//
+//            // Get author name
+//            if let author = self.book.metadata.creators.first {
+//                authorName = author.name
+//            }
+//
+//            // Sharing html and text
+//            html = "<html><body>"
+//            html += "<br /><hr> <p>\(htmlText)</p> <hr><br />"
+//            html += "<center><p style=\"color:gray\">"+readerConfig.localizedShareAllExcerptsFrom+"</p>"
+//            html += "<b>\(bookTitle)</b><br />"
+//            html += readerConfig.localizedShareBy+" <i>\(authorName)</i><br />"
+//
+//            if let bookShareLink = readerConfig.localizedShareWebLink {
+//                html += "<a href=\"\(bookShareLink.absoluteString)\">\(bookShareLink.absoluteString)</a>"
+//                shareItems.append(bookShareLink as AnyObject)
+//            }
+//
+//            html += "</center></body></html>"
+//            text = "\(chapterName)\n\n“\(chapterText)” \n\n\(bookTitle) \n\(readerConfig.localizedShareBy) \(authorName)"
+//
+//            let act = FolioReaderSharingProvider(subject: subject, text: text, html: html)
+//            shareItems.insert(contentsOf: [act, "" as AnyObject], at: 0)
+//
+//            let activityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
+//            activityViewController.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToVimeo]
+//
+//            // Pop style on iPad
+//            if let actv = activityViewController.popoverPresentationController {
+//                actv.barButtonItem = sender
+//            }
+//
+//            present(activityViewController, animated: true, completion: nil)
+//        }
+//    }
 
     /**
      Sharing highlight method.
@@ -1360,24 +1360,24 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
     /**
      Present audio player menu
      */
-    @objc func presentPlayerMenu(_ sender: UIBarButtonItem) {
-        folioReader.saveReaderState()
-        hideBars()
-
-        let menu = FolioReaderPlayerMenu(folioReader: folioReader, readerConfig: readerConfig)
-        menu.modalPresentationStyle = .custom
-
-        animator = ZFModalTransitionAnimator(modalViewController: menu)
-        animator.isDragable = true
-        animator.bounces = false
-        animator.behindViewAlpha = 0.4
-        animator.behindViewScale = 1
-        animator.transitionDuration = 0.6
-        animator.direction = ZFModalTransitonDirection.bottom
-
-        menu.transitioningDelegate = animator
-        present(menu, animated: true, completion: nil)
-    }
+//    @objc func presentPlayerMenu(_ sender: UIBarButtonItem) {
+//        folioReader.saveReaderState()
+//        hideBars()
+//
+//        let menu = FolioReaderPlayerMenu(folioReader: folioReader, readerConfig: readerConfig)
+//        menu.modalPresentationStyle = .custom
+//
+//        animator = ZFModalTransitionAnimator(modalViewController: menu)
+//        animator.isDragable = true
+//        animator.bounces = false
+//        animator.behindViewAlpha = 0.4
+//        animator.behindViewScale = 1
+//        animator.transitionDuration = 0.6
+//        animator.direction = ZFModalTransitonDirection.bottom
+//
+//        menu.transitioningDelegate = animator
+//        present(menu, animated: true, completion: nil)
+//    }
 
     /**
      Present Quote Share
