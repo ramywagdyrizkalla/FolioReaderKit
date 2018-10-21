@@ -173,7 +173,7 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
                 
                 var locator = item.contentPre + item.content
                 locator += item.contentPost
-                locator = Highlight.removeSentenceSpam(locator) /// Fix for Highlights
+                locator = Highlight.removeSentenceSpanTag(locator) /// Fix for Highlights
                 
                 let range: NSRange = tempHtmlContent.range(of: locator, options: .literal)
                 

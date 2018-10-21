@@ -214,11 +214,11 @@ open class FolioReaderWebView: UIWebView {
 //        readerContainer.show(vc, sender: nil)
 //    }
 
-    @objc func play(_ sender: UIMenuController?) {
-        self.folioReader.readerAudioPlayer?.play()
-
-        self.clearTextSelection()
-    }
+//    @objc func play(_ sender: UIMenuController?) {
+//        self.folioReader.readerAudioPlayer?.play()
+//
+//        self.clearTextSelection()
+//    }
 
     func setYellow(_ sender: UIMenuController?) {
         changeHighlightStyle(sender, style: .yellow)

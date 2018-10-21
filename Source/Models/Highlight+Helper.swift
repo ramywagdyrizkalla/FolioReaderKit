@@ -252,9 +252,9 @@ extension Highlight {
             highlight.highlightId = matchingHighlight.id
             highlight.type = HighlightStyle.styleForClass(str.substring(with: match.range(at: 1))).rawValue
             highlight.date = Date()
-            highlight.content = Highlight.removeSentenceSpam(str.substring(with: match.range(at: 2)))
-            highlight.contentPre = Highlight.removeSentenceSpam(contentPre)
-            highlight.contentPost = Highlight.removeSentenceSpam(contentPost)
+            highlight.content = Highlight.removeSentenceSpanTag(str.substring(with: match.range(at: 2)))
+            highlight.contentPre = "" //Highlight.removeSentenceSpanTag(contentPre)
+            highlight.contentPost = "" //Highlight.removeSentenceSpanTag(contentPost)
             highlight.page = matchingHighlight.currentPage
             highlight.bookId = matchingHighlight.bookId
             highlight.startOffset = (Int(matchingHighlight.startOffset) ?? -1)
@@ -304,7 +304,7 @@ extension Highlight {
      - parameter text: Text to analise
      - returns: Striped text
      */
-    public static func removeSentenceSpam(_ text: String) -> String {
+    public static func removeSentenceSpanTag(_ text: String) -> String {
         
         // Remove from text
         func removeFrom(_ text: String, withPattern pattern: String) -> String {
