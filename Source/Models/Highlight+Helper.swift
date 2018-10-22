@@ -214,7 +214,12 @@ extension Highlight {
 //            return []
 //        }
         
-        return (Highlight.highLightCoreDataRetrieveDelegate?.allByBookId(bookId: bookId, andPage: page))!
+        if let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol {
+            Highlight.highLightCoreDataRetrieveDelegate = conf
+            return (Highlight.highLightCoreDataRetrieveDelegate?.allByBookId(bookId: bookId, andPage: page))!
+        }
+        
+        return []
     }
 
     /// Return all Highlights
