@@ -99,7 +99,12 @@ extension Highlight {
 //            completion?(error)
 //        }
         
-        highLightCoreDataSaveDelegate?.saveHighLight(highlight: self)
+        if let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol {
+            highLightCoreDataSaveDelegate = conf
+            highLightCoreDataSaveDelegate?.saveHighLight(highlight: self)
+        }
+        
+        
     }
 
     /// Remove a Highlight

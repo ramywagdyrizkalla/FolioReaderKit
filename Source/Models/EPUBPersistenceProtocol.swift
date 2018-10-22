@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol EPUBPersistenceProtocol {
+public protocol EPUBPersistenceProtocol {
     
     func saveHighLight(highlight: Highlight)
     

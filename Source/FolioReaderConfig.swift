@@ -165,6 +165,8 @@ open class FolioReaderConfig: NSObject {
 
     /// Realm configuration for storing highlights
     open var realmConfiguration         = Realm.Configuration(schemaVersion: 2)
+    
+    open var highlightConfiguration: Any?
 
     // MARK: Localized strings
 
