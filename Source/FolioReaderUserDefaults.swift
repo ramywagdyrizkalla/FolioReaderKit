@@ -82,7 +82,7 @@ extension FolioReaderUserDefaults {
 // MARK: - Setter
 
 extension FolioReaderUserDefaults {
-    
+        
     internal func register(defaults: [String: Any]) {
         guard (self.useStandardUserDefaultsDirectly == false) else {
             UserDefaults.standard.register(defaults: defaults)

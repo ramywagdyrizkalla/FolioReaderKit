@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import RealmSwift
+//import RealmSwift
 
 /**
  HighlightStyle type, default is .Yellow.
@@ -226,17 +226,17 @@ extension Highlight {
     ///
     /// - Parameter readerConfig: - readerConfig: Current folio reader configuration.
     /// - Returns: Return all Highlights
-    public static func all(withConfiguration readerConfig: FolioReaderConfig) -> [Highlight] {
-        var highlights: [Highlight]?
-        do {
-            let realm = try Realm(configuration: readerConfig.realmConfiguration)
-            highlights = realm.objects(Highlight.self).toArray(Highlight.self)
-            return (highlights ?? [])
-        } catch let error as NSError {
-            print("Error on fetch all: \(error)")
-            return []
-        }
-    }
+//    public static func all(withConfiguration readerConfig: FolioReaderConfig) -> [Highlight] {
+//        var highlights: [Highlight]?
+//        do {
+//            let realm = try Realm(configuration: readerConfig.realmConfiguration)
+//            highlights = realm.objects(Highlight.self).toArray(Highlight.self)
+//            return (highlights ?? [])
+//        } catch let error as NSError {
+//            print("Error on fetch all: \(error)")
+//            return []
+//        }
+//    }
 }
 
 // MARK: - HTML Methods
