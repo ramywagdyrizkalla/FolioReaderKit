@@ -90,7 +90,7 @@ extension Highlight {
 
         if let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol {
             highLightCoreDataSaveDelegate = conf
-            highLightCoreDataSaveDelegate?.saveHighLight(highlight: self)
+            highLightCoreDataSaveDelegate?.saveHighLight(by: self)
         }
     }
 
@@ -112,7 +112,7 @@ extension Highlight {
     }
 
     public static func removeById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String) {
-        Highlight.highLightCoreDataRetrieveDelegate?.removeHighLightById(highlightId: highlightId)
+        Highlight.highLightCoreDataRetrieveDelegate?.removeHighLight(by: highlightId)
     }
 
     public static func getById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String) -> Highlight {
@@ -121,7 +121,7 @@ extension Highlight {
             return Highlight()
         }
         
-        return retrieveDelegate.getHighLightgById(highlightId: highlightId)
+        return retrieveDelegate.getHighLight(by: highlightId)
     }
 
     /// Update a Highlight by ID
@@ -131,18 +131,37 @@ extension Highlight {
     ///   - highlightId: The ID to be removed
     ///   - type: The `HighlightStyle`
     public static func updateById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String, type: HighlightStyle) {
-
-        Highlight.highLightCoreDataRetrieveDelegate?.updateHighLightById(highlightId: highlightId, type: type)
+        guard let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol else {
+            return
+        }
+        Highlight.highLightCoreDataRetrieveDelegate = conf
+        Highlight.highLightCoreDataRetrieveDelegate?.updateHighLight(by: highlightId, type: type)
+    
+    }
+    
+    public static func updateById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String, note: String) {
+        guard let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol else {
+            return
+        }
+        Highlight.highLightCoreDataRetrieveDelegate = conf
+        Highlight.highLightCoreDataRetrieveDelegate?.updateHighLight(by: highlightId, note: note)
+        
     }
 
     public static func allByBookId(withConfiguration readerConfig: FolioReaderConfig, bookId: String, andPage page: NSNumber? = nil) -> [Highlight] {
 
-        if let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol {
-            Highlight.highLightCoreDataRetrieveDelegate = conf
-            return (Highlight.highLightCoreDataRetrieveDelegate?.allByBookId(bookId: bookId, andPage: page))!
+        guard let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol else {
+            return []
         }
         
-        return []
+        Highlight.highLightCoreDataRetrieveDelegate = conf
+        
+        guard let retrieveDelegate = Highlight.highLightCoreDataRetrieveDelegate else {
+            return []
+        }
+        
+        return retrieveDelegate.allHighlights(by: bookId, andPage: page)
+ 
     }
 
     /// Return all Highlights

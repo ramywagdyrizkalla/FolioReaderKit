@@ -10,17 +10,19 @@ import Foundation
 
 public protocol EPUBPersistenceProtocol {
     
-    func saveHighLight(highlight: Highlight)
+    func saveHighLight(by highlight: Highlight)
     
     func remove(withConfiguration readerConfig: FolioReaderConfig)
     
-    func removeHighLightById(highlightId: String)
+    func removeHighLight(by highlightId: String)
     
-    func getHighLightgById(highlightId: String) -> Highlight
+    func getHighLight(by highlightId: String) -> Highlight
     
-    func updateHighLightById(highlightId: String, type: HighlightStyle)
+    func updateHighLight(by highlightId: String, type: HighlightStyle)
     
-    func allByBookId(bookId: String, andPage page: NSNumber?) -> [Highlight]
+    func updateHighLight(by highlightId: String, note: String)
+
+    func allHighlights(by bookId: String, andPage page: NSNumber?) -> [Highlight]
     
     func all(withConfiguration readerConfig: FolioReaderConfig) -> [Highlight]
     
