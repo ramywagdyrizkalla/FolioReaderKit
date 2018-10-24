@@ -10,7 +10,7 @@ import Foundation
 //import RealmSwift
 
 /// A Highlight object
-open class Highlight {
+open class Highlight: NSObject {
     @objc open dynamic var bookId: String!
     @objc open dynamic var content: String!
     @objc open dynamic var contentPost: String!
@@ -26,13 +26,5 @@ open class Highlight {
     var highLightCoreDataSaveDelegate: EPUBPersistenceProtocol?
     static var highLightCoreDataRetrieveDelegate: EPUBPersistenceProtocol?
 
-//    override open class func primaryKey()-> String {
-//        return "highlightId"
-//    }
+    
 }
-
-//extension Results {
-//    func toArray<T>(_ ofType: T.Type) -> [T] {
-//        return compactMap { $0 as? T }
-//    }
-//}
