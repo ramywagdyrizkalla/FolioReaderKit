@@ -171,7 +171,8 @@ extension Highlight {
         var id: String
         var startOffset: String
         var endOffset: String
-        var bookId: String
+        var bookName: String
+        var bookID: Int32?
         var currentPage: Int
     }
 
@@ -200,7 +201,8 @@ extension Highlight {
             highlight.contentPre = Highlight.removeSentenceSpanTag(contentPre)
             highlight.contentPost = Highlight.removeSentenceSpanTag(contentPost)
             highlight.page = matchingHighlight.currentPage
-            highlight.bookId = matchingHighlight.bookId
+            highlight.bookname = matchingHighlight.bookName
+            highlight.bookId = matchingHighlight.bookID!
             highlight.startOffset = (Int(matchingHighlight.startOffset) ?? -1)
             highlight.endOffset = (Int(matchingHighlight.endOffset) ?? -1)
 

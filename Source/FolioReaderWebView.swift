@@ -152,12 +152,14 @@ open class FolioReaderWebView: UIWebView {
             guard
                 let html = js("getHTML()"),
                 let identifier = dic["id"],
-                let bookId = (self.book.name as NSString?)?.deletingPathExtension else {
+                let bookName = (self.book.name as NSString?)?.deletingPathExtension else {
                     return
-            }
+                }
+            
+            let bookID = self.book.bookID
 
             let pageNumber = folioReader.readerCenter?.currentPageNumber ?? 0
-            let match = Highlight.MatchingHighlight(text: html, id: identifier, startOffset: startOffset, endOffset: endOffset, bookId: bookId, currentPage: pageNumber)
+            let match = Highlight.MatchingHighlight(text: html, id: identifier, startOffset: startOffset, endOffset: endOffset, bookName: bookName, bookID: bookID, currentPage: pageNumber)
             let highlight = Highlight.matchHighlight(match)
             highlight?.persist(withConfiguration: self.readerConfig)
 
@@ -181,10 +183,11 @@ open class FolioReaderWebView: UIWebView {
             
             guard let html = js("getHTML()") else { return }
             guard let identifier = dic["id"] else { return }
-            guard let bookId = (self.book.name as NSString?)?.deletingPathExtension else { return }
+            guard let bookName = (self.book.name as NSString?)?.deletingPathExtension else { return }
+            let bookID = self.book.bookID
             
             let pageNumber = folioReader.readerCenter?.currentPageNumber ?? 0
-            let match = Highlight.MatchingHighlight(text: html, id: identifier, startOffset: startOffset, endOffset: endOffset, bookId: bookId, currentPage: pageNumber)
+            let match = Highlight.MatchingHighlight(text: html, id: identifier, startOffset: startOffset, endOffset: endOffset, bookName: bookName, bookID: bookID, currentPage: pageNumber)
             if let highlight = Highlight.matchHighlight(match) {
                 self.folioReader.readerCenter?.presentAddHighlightNote(highlight, edit: false)
             }

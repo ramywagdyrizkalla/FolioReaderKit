@@ -11,7 +11,8 @@ import Foundation
 
 /// A Highlight object
 open class Highlight: NSObject {
-    @objc open dynamic var bookId: String!
+    @objc open dynamic var bookname: String!
+    @objc open dynamic var bookId: Int32 = 0
     @objc open dynamic var content: String!
     @objc open dynamic var contentPost: String!
     @objc open dynamic var contentPre: String!
