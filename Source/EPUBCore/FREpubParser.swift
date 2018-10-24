@@ -78,7 +78,8 @@ class FREpubParser: NSObject, SSZipArchiveDelegate {
     ///   - unzipPath: Path to unzip the compressed epub.
     /// - Returns: `FRBook` Object
     /// - Throws: `FolioReaderError`
-    func readEpub(epubPath withEpubPath: String, removeEpub: Bool = true, unzipPath: String? = nil) throws -> FRBook {
+    func readEpub(epubPath withEpubPath: String, removeEpub: Bool = true, unzipPath: String? = nil, epubID: Int32? = nil
+        ) throws -> FRBook {
         epubPathToRemove = withEpubPath
         shouldRemoveEpub = removeEpub
 
@@ -110,6 +111,7 @@ class FREpubParser: NSObject, SSZipArchiveDelegate {
         try addSkipBackupAttributeToItemAtURL(URL(fileURLWithPath: bookBasePath, isDirectory: true))
 
         book.name = bookName
+        book.bookID = epubID
         try readContainer(with: bookBasePath)
         try readOpf(with: bookBasePath)
         return self.book

@@ -87,24 +87,11 @@ extension Highlight {
     ///   - readerConfig: Current folio reader configuration.
     ///   - completion: Completion block.
     public func persist(withConfiguration readerConfig: FolioReaderConfig, completion: Completion? = nil) {
-        
-//        do {
-//            let realm = try Realm(configuration: readerConfig.realmConfiguration)
-//            realm.beginWrite()
-//            realm.add(self, update: true)
-//            try realm.commitWrite()
-//            completion?(nil)
-//        } catch let error as NSError {
-//            print("Error on persist highlight: \(error)")
-//            completion?(error)
-//        }
-        
+
         if let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol {
             highLightCoreDataSaveDelegate = conf
             highLightCoreDataSaveDelegate?.saveHighLight(highlight: self)
         }
-        
-        
     }
 
     /// Remove a Highlight
@@ -124,45 +111,17 @@ extension Highlight {
 //        }
     }
 
-    /// Remove a Highlight by ID
-    ///
-    /// - Parameters:
-    ///   - readerConfig: Current folio reader configuration.
-    ///   - highlightId: The ID to be removed
     public static func removeById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String) {
-//        var highlight: Highlight?
-//        let predicate = NSPredicate(format:"highlightId = %@", highlightId)
-//
-//        do {
-//            let realm = try Realm(configuration: readerConfig.realmConfiguration)
-//            highlight = realm.objects(Highlight.self).filter(predicate).toArray(Highlight.self).first
-//            highlight?.remove(withConfiguration: readerConfig)
-//        } catch let error as NSError {
-//            print("Error on remove highlight by id: \(error)")
-//        }
-        
         Highlight.highLightCoreDataRetrieveDelegate?.removeHighLightById(highlightId: highlightId)
     }
-    
-    /// Return a Highlight by ID
-    ///
-    /// - Parameter:
-    ///   - readerConfig: Current folio reader configuration.
-    ///   - highlightId: The ID to be removed
-    ///   - page: Page number
-    /// - Returns: Return a Highlight
+
     public static func getById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String) -> Highlight {
-//        var highlight: Highlight?
-//        let predicate = NSPredicate(format:"highlightId = %@", highlightId)
-//        do {
-//            let realm = try! Realm(configuration: readerConfig.realmConfiguration)
-//            highlight = realm.objects(Highlight.self).filter(predicate).toArray(Highlight.self).first
-//            return highlight!
-//        } catch let error as NSError {
-//            print("Error getting Highlight : \(error)")
-//        }
         
-        return (Highlight.highLightCoreDataRetrieveDelegate?.getHighLightgById(highlightId: highlightId))!
+        guard let retrieveDelegate = Highlight.highLightCoreDataRetrieveDelegate else {
+            return Highlight()
+        }
+        
+        return retrieveDelegate.getHighLightgById(highlightId: highlightId)
     }
 
     /// Update a Highlight by ID
@@ -172,48 +131,12 @@ extension Highlight {
     ///   - highlightId: The ID to be removed
     ///   - type: The `HighlightStyle`
     public static func updateById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String, type: HighlightStyle) {
-//        var highlight: Highlight?
-//        let predicate = NSPredicate(format:"highlightId = %@", highlightId)
-//        do {
-//            let realm = try Realm(configuration: readerConfig.realmConfiguration)
-//            highlight = realm.objects(Highlight.self).filter(predicate).toArray(Highlight.self).first
-//            realm.beginWrite()
-//
-//            highlight?.type = type.hashValue
-//
-//            try realm.commitWrite()
-//
-//        } catch let error as NSError {
-//            print("Error on updateById: \(error)")
-//        }
-        
-        Highlight.highLightCoreDataRetrieveDelegate?.updateHighLightById(highlightId: highlightId, type: type)
 
+        Highlight.highLightCoreDataRetrieveDelegate?.updateHighLightById(highlightId: highlightId, type: type)
     }
 
-    /// Return a list of Highlights with a given ID
-    ///
-    /// - Parameters:
-    ///   - readerConfig: Current folio reader configuration.
-    ///   - bookId: Book ID
-    ///   - page: Page number
-    /// - Returns: Return a list of Highlights
     public static func allByBookId(withConfiguration readerConfig: FolioReaderConfig, bookId: String, andPage page: NSNumber? = nil) -> [Highlight] {
-//        var highlights: [Highlight]?
-//        var predicate = NSPredicate(format: "bookId = %@", bookId)
-//        if let page = page {
-//            predicate = NSPredicate(format: "bookId = %@ && page = %@", bookId, page)
-//        }
-//
-//        do {
-//            let realm = try Realm(configuration: readerConfig.realmConfiguration)
-//            highlights = realm.objects(Highlight.self).filter(predicate).toArray(Highlight.self)
-//            return (highlights ?? [])
-//        } catch let error as NSError {
-//            print("Error on fetch all by book Id: \(error)")
-//            return []
-//        }
-        
+
         if let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol {
             Highlight.highLightCoreDataRetrieveDelegate = conf
             return (Highlight.highLightCoreDataRetrieveDelegate?.allByBookId(bookId: bookId, andPage: page))!

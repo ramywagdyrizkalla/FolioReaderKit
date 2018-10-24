@@ -167,6 +167,7 @@ open class FolioReaderConfig: NSObject {
     //open var realmConfiguration         = Realm.Configuration(schemaVersion: 2)
     
     open var highlightConfiguration: Any?
+    open var injectedEpubBookID: Int32?
 
     // MARK: Localized strings
 

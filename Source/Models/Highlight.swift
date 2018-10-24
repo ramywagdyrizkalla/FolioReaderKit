@@ -25,6 +25,5 @@ open class Highlight: NSObject {
     
     var highLightCoreDataSaveDelegate: EPUBPersistenceProtocol?
     static var highLightCoreDataRetrieveDelegate: EPUBPersistenceProtocol?
-
     
 }

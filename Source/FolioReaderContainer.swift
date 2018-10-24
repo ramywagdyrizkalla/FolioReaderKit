@@ -17,6 +17,7 @@ open class FolioReaderContainer: UIViewController {
     // Mark those property as public so they can accessed from other classes/subclasses.
     public var epubPath: String
 	public var unzipPath: String?
+    public var injectedBookID: Int32?
     public var book: FRBook
     
     public var centerNavigationController: UINavigationController?
@@ -45,6 +46,7 @@ open class FolioReaderContainer: UIViewController {
 		self.unzipPath = unzipPath
         self.shouldRemoveEpub = removeEpub
         self.book = FRBook()
+        self.injectedBookID = config.injectedEpubBookID
 
         super.init(nibName: nil, bundle: Bundle.frameworkBundle())
 
@@ -106,6 +108,8 @@ open class FolioReaderContainer: UIViewController {
         self.epubPath = path
 		self.unzipPath = unzipPath
         self.shouldRemoveEpub = removeEpub
+        self.injectedBookID = config.injectedEpubBookID
+
     }
 
     // MARK: - View life cicle
@@ -158,7 +162,7 @@ open class FolioReaderContainer: UIViewController {
         DispatchQueue.global(qos: .userInitiated).async {
 
             do {
-                let parsedBook = try FREpubParser().readEpub(epubPath: self.epubPath, removeEpub: self.shouldRemoveEpub, unzipPath: self.unzipPath)
+                let parsedBook = try FREpubParser().readEpub(epubPath: self.epubPath, removeEpub: self.shouldRemoveEpub, unzipPath: self.unzipPath, epubID: self.injectedBookID)
                 self.book = parsedBook
                 self.folioReader.isReaderOpen = true
 
