@@ -335,6 +335,13 @@ extension FolioReader {
 // MARK: - Exit, save and close FolioReader
 
 extension FolioReader {
+    
+    public enum PositionKey: String {
+        case pageNumber
+        case pageOffsetX
+        case pageOffsetY
+
+    }
 
     /// Save Reader state, book, page and scroll offset.
     @objc open func saveReaderState() {
@@ -347,15 +354,19 @@ extension FolioReader {
         }
 
         let position = [
-            "pageNumber": (self.readerCenter?.currentPageNumber ?? 0),
-            "pageOffsetX": webView.scrollView.contentOffset.x,
-            "pageOffsetY": webView.scrollView.contentOffset.y
+            PositionKey.pageNumber.rawValue: (self.readerCenter?.currentPageNumber ?? 0),
+            PositionKey.pageOffsetX.rawValue: webView.scrollView.contentOffset.x,
+            PositionKey.pageOffsetY.rawValue: webView.scrollView.contentOffset.y
             ] as [String : Any]
 
-        self.savedPositionForCurrentBook = position
+//        self.savedPositionForCurrentBook = position
+        
+        guard let bookID = self.readerContainer?.book.bookID else {
+            return
+        }
         
         self.epubDelegate = self.readerContainer?.readerConfig.epubDelegateConfiguration
-        //self.epubDelegate?.updateBook(by: <#T##Int#>, with: position)
+        self.epubDelegate?.updateBook(by: bookID, with: position)
         
         
         
