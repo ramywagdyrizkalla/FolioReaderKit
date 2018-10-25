@@ -88,8 +88,8 @@ extension Highlight {
     ///   - completion: Completion block.
     public func persist(withConfiguration readerConfig: FolioReaderConfig, completion: Completion? = nil) {
 
-        if let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol {
-            highLightCoreDataSaveDelegate = conf
+        if let highlightDelegate = readerConfig.highlightDelegateConfiguration {
+            highLightCoreDataSaveDelegate = highlightDelegate
             highLightCoreDataSaveDelegate?.saveHighLight(by: self)
         }
     }
@@ -124,23 +124,17 @@ extension Highlight {
         return retrieveDelegate.getHighLight(by: highlightId)
     }
 
-    /// Update a Highlight by ID
-    ///
-    /// - Parameters:
-    ///   - readerConfig: Current folio reader configuration.
-    ///   - highlightId: The ID to be removed
-    ///   - type: The `HighlightStyle`
     public static func updateById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String, type: HighlightStyle) {
-        guard let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol else {
+        guard let highlightDelegate = readerConfig.highlightDelegateConfiguration else {
             return
         }
-        Highlight.highLightCoreDataRetrieveDelegate = conf
+        Highlight.highLightCoreDataRetrieveDelegate = highlightDelegate
         Highlight.highLightCoreDataRetrieveDelegate?.updateHighLight(by: highlightId, type: type)
     
     }
     
     public static func updateById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String, note: String) {
-        guard let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol else {
+        guard let conf = readerConfig.highlightDelegateConfiguration else {
             return
         }
         Highlight.highLightCoreDataRetrieveDelegate = conf
@@ -150,11 +144,11 @@ extension Highlight {
 
     public static func allByBookId(withConfiguration readerConfig: FolioReaderConfig, bookId: String, andPage page: NSNumber? = nil) -> [Highlight] {
 
-        guard let conf = readerConfig.highlightConfiguration as? EPUBPersistenceProtocol else {
+        guard let highlightDelegate = readerConfig.highlightDelegateConfiguration else {
             return []
         }
         
-        Highlight.highLightCoreDataRetrieveDelegate = conf
+        Highlight.highLightCoreDataRetrieveDelegate = highlightDelegate
         
         guard let retrieveDelegate = Highlight.highLightCoreDataRetrieveDelegate else {
             return []
@@ -191,7 +185,7 @@ extension Highlight {
         var startOffset: String
         var endOffset: String
         var bookName: String
-        var bookID: Int32?
+        var bookID: Int
         var currentPage: Int
     }
 
@@ -221,7 +215,7 @@ extension Highlight {
             highlight.contentPost = Highlight.removeSentenceSpanTag(contentPost)
             highlight.page = matchingHighlight.currentPage
             highlight.bookname = matchingHighlight.bookName
-            highlight.bookId = matchingHighlight.bookID!
+            highlight.bookId = matchingHighlight.bookID
             highlight.startOffset = (Int(matchingHighlight.startOffset) ?? -1)
             highlight.endOffset = (Int(matchingHighlight.endOffset) ?? -1)
 

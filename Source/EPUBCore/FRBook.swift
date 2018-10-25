@@ -20,7 +20,7 @@ open class FRBook: NSObject {
     public var uniqueIdentifier: String?
     public var coverImage: FRResource?
     public var name: String?
-    public var bookID: Int32?
+    public var bookID: Int?
     public var resources = FRResources()
     public var tableOfContents: [FRTocReference]!
     public var flatTableOfContents: [FRTocReference]!

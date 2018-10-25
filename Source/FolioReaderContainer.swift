@@ -17,7 +17,7 @@ open class FolioReaderContainer: UIViewController {
     // Mark those property as public so they can accessed from other classes/subclasses.
     public var epubPath: String
 	public var unzipPath: String?
-    public var injectedBookID: Int32?
+    public var injectedBookID: Int?
     public var book: FRBook
     
     public var centerNavigationController: UINavigationController?

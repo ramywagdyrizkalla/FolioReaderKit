@@ -12,7 +12,7 @@ import Foundation
 /// A Highlight object
 open class Highlight: NSObject {
     @objc open dynamic var bookname: String!
-    @objc open dynamic var bookId: Int32 = 0
+    @objc open dynamic var bookId: Int = -1
     @objc open dynamic var content: String!
     @objc open dynamic var contentPost: String!
     @objc open dynamic var contentPre: String!
@@ -24,7 +24,7 @@ open class Highlight: NSObject {
     @objc open dynamic var endOffset: Int = -1
     @objc open dynamic var noteForHighlight: String?
     
-    var highLightCoreDataSaveDelegate: EPUBPersistenceProtocol?
-    static var highLightCoreDataRetrieveDelegate: EPUBPersistenceProtocol?
+    var highLightCoreDataSaveDelegate: EPUBHighLightPersistenceDelegate?
+    static var highLightCoreDataRetrieveDelegate: EPUBHighLightPersistenceDelegate?
     
 }

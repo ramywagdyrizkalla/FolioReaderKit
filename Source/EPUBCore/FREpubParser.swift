@@ -78,7 +78,7 @@ class FREpubParser: NSObject, SSZipArchiveDelegate {
     ///   - unzipPath: Path to unzip the compressed epub.
     /// - Returns: `FRBook` Object
     /// - Throws: `FolioReaderError`
-    func readEpub(epubPath withEpubPath: String, removeEpub: Bool = true, unzipPath: String? = nil, epubID: Int32? = nil
+    func readEpub(epubPath withEpubPath: String, removeEpub: Bool = true, unzipPath: String? = nil, epubID: Int? = nil
         ) throws -> FRBook {
         epubPathToRemove = withEpubPath
         shouldRemoveEpub = removeEpub

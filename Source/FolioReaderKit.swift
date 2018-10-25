@@ -95,6 +95,9 @@ public enum MediaOverlayStyle: Int {
 /// Main Library class with some useful constants and methods
 open class FolioReader: NSObject {
 
+    private weak var epubDelegate: EPUBPersistenceDelegate?
+    private var config: FolioReaderConfig?
+
     public override init() { }
 
     deinit {
@@ -350,6 +353,12 @@ extension FolioReader {
             ] as [String : Any]
 
         self.savedPositionForCurrentBook = position
+        
+        self.epubDelegate = self.readerContainer?.readerConfig.epubDelegateConfiguration
+        //self.epubDelegate?.updateBook(by: <#T##Int#>, with: position)
+        
+        
+        
     }
 
     /// Closes and save the reader current instance.

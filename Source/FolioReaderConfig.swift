@@ -161,13 +161,12 @@ open class FolioReaderConfig: NSObject {
     /// Enable or disable default Quote Image backgrounds
     open var quotePreserveDefaultBackgrounds    = true
 
-    // MARK: Realm
-
-    /// Realm configuration for storing highlights
-    //open var realmConfiguration         = Realm.Configuration(schemaVersion: 2)
+    // MARK: Persistence Delegate
     
-    open var highlightConfiguration: Any?
-    open var injectedEpubBookID: Int32?
+    open var highlightDelegateConfiguration: EPUBHighLightPersistenceDelegate?
+    open var epubDelegateConfiguration: EPUBPersistenceDelegate?
+
+    open var injectedEpubBookID: Int?
 
     // MARK: Localized strings
 
@@ -213,11 +212,18 @@ open class FolioReaderConfig: NSObject {
     open var localizedSave = NSLocalizedString("Save", comment: "")
     open var localizedHighlightNote = NSLocalizedString("Note", comment: "")
 
-    public convenience init(withIdentifier identifier: String) {
+    
+    public convenience init(withEpubID epubID: Int) {
         self.init()
+        self.injectedEpubBookID = epubID
 
-        self.identifier = identifier
     }
+    
+//    public convenience init(withIdentifier identifier: String) {
+//        self.init(withEpubID: Int(identifier) ?? -1)
+//        
+//        self.identifier = identifier
+//    }
 
     /**
      Simplify attibution of values based on direction, basically is to avoid too much usage of `switch`,

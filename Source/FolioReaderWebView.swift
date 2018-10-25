@@ -152,11 +152,11 @@ open class FolioReaderWebView: UIWebView {
             guard
                 let html = js("getHTML()"),
                 let identifier = dic["id"],
-                let bookName = (self.book.name as NSString?)?.deletingPathExtension else {
+                let bookName = (self.book.name as NSString?)?.deletingPathExtension,
+                let bookID = self.book.bookID else {
                     return
                 }
             
-            let bookID = self.book.bookID
 
             let pageNumber = folioReader.readerCenter?.currentPageNumber ?? 0
             let match = Highlight.MatchingHighlight(text: html, id: identifier, startOffset: startOffset, endOffset: endOffset, bookName: bookName, bookID: bookID, currentPage: pageNumber)
@@ -184,7 +184,7 @@ open class FolioReaderWebView: UIWebView {
             guard let html = js("getHTML()") else { return }
             guard let identifier = dic["id"] else { return }
             guard let bookName = (self.book.name as NSString?)?.deletingPathExtension else { return }
-            let bookID = self.book.bookID
+            guard let bookID = self.book.bookID else { return }
             
             let pageNumber = folioReader.readerCenter?.currentPageNumber ?? 0
             let match = Highlight.MatchingHighlight(text: html, id: identifier, startOffset: startOffset, endOffset: endOffset, bookName: bookName, bookID: bookID, currentPage: pageNumber)
