@@ -35,6 +35,8 @@ import ZFDragableModalTransition
 /// The base reader class
 open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
+    open weak var epubDelegate: EPUBPersistenceDelegate?
+    
     /// This delegate receives the events from the current `FolioReaderPage`s delegate.
     open weak var delegate: FolioReaderCenterDelegate?
 
@@ -302,7 +304,11 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         self.setCollectionViewProgressiveDirection()
 
         if self.readerConfig.loadSavedPositionForCurrentBook {
-            guard let position = folioReader.savedPositionForCurrentBook, let pageNumber = position["pageNumber"] as? Int, pageNumber > 0 else {
+            self.epubDelegate = self.readerConfig.epubDelegateConfiguration
+            
+            guard let bookID = book.bookID,
+                let position = epubDelegate?.getPosition(by: bookID)/*folioReader.savedPositionForCurrentBook*/,
+                let pageNumber = position["pageNumber"] as? Int, pageNumber > 0 else {
                 self.currentPageNumber = 1
                 return
             }
@@ -1410,21 +1416,28 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 extension FolioReaderCenter: FolioReaderPageDelegate {
 
     public func pageDidLoad(_ page: FolioReaderPage) {
-        if self.readerConfig.loadSavedPositionForCurrentBook, let position = folioReader.savedPositionForCurrentBook {
-            let pageNumber = position["pageNumber"] as? Int
-            let offset = self.readerConfig.isDirection(position["pageOffsetY"], position["pageOffsetX"], position["pageOffsetY"]) as? CGFloat
-            let pageOffset = offset
+        
+        self.epubDelegate = self.readerConfig.epubDelegateConfiguration
+        
+        if self.readerConfig.loadSavedPositionForCurrentBook,
+            //let position = folioReader.savedPositionForCurrentBook
+            let bookID = self.book.bookID,
+            let position = epubDelegate?.getPosition(by: bookID) {
+            
+                let pageNumber = position["pageNumber"] as? Int
+                let offset = self.readerConfig.isDirection(position["pageOffsetY"], position["pageOffsetX"], position["pageOffsetY"]) as? CGFloat
+                let pageOffset = offset
 
-            if isFirstLoad {
-                updateCurrentPage(page)
-                isFirstLoad = false
+                if isFirstLoad {
+                    updateCurrentPage(page)
+                    isFirstLoad = false
 
-                if (self.currentPageNumber == pageNumber && pageOffset > 0) {
-                    page.scrollPageToOffset(pageOffset!, animated: false)
+                    if (self.currentPageNumber == pageNumber && pageOffset > 0) {
+                        page.scrollPageToOffset(pageOffset!, animated: false)
+                    }
+                } else if (self.isScrolling == false && folioReader.needsRTLChange == true) {
+                    page.scrollPageToBottom()
                 }
-            } else if (self.isScrolling == false && folioReader.needsRTLChange == true) {
-                page.scrollPageToBottom()
-            }
         } else if isFirstLoad {
             updateCurrentPage(page)
             isFirstLoad = false

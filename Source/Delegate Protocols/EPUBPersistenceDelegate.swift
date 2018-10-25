@@ -11,5 +11,7 @@ import Foundation
 public protocol EPUBPersistenceDelegate: AnyObject {
 
     func updateBook(by bookID: Int, with currentPosition: [String: Any])
+    
+    func getPosition(by bookID: Int) -> [String: Any]
 
 }
