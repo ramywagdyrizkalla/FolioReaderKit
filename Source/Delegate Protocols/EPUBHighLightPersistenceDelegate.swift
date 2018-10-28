@@ -22,7 +22,7 @@ public protocol EPUBHighLightPersistenceDelegate {
     
     func updateHighLight(byHighlightId highlightId: String, note: String)
 
-    func allHighlights(byHighlightId bookId: String, andPage page: NSNumber?) -> [Highlight]
+    func allHighlights(byBookId bookId: Int, andPage page: NSNumber?) -> [Highlight]
     
     func all(withConfiguration readerConfig: FolioReaderConfig) -> [Highlight]
     

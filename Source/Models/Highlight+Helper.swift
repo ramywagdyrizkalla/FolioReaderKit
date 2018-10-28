@@ -142,7 +142,7 @@ extension Highlight {
         
     }
 
-    public static func allByBookId(withConfiguration readerConfig: FolioReaderConfig, bookId: String, andPage page: NSNumber? = nil) -> [Highlight] {
+    public static func allByBookId(withConfiguration readerConfig: FolioReaderConfig, bookId: Int, andPage page: NSNumber? = nil) -> [Highlight] {
 
         guard let highlightDelegate = readerConfig.highlightDelegateConfiguration else {
             return []
@@ -154,7 +154,7 @@ extension Highlight {
             return []
         }
         
-        return retrieveDelegate.allHighlights(byHighlightId: bookId, andPage: page)
+        return retrieveDelegate.allHighlights(byBookId: bookId, andPage: page)
  
     }
 
