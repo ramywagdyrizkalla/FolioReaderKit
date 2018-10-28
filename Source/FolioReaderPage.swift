@@ -364,15 +364,15 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
         return nil
     }
 
+    var didTapAwayFromHighlightMenu:Bool = false
+    
     // MARK: Gesture recognizer
-
     open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer.view is FolioReaderWebView {
             if otherGestureRecognizer is UILongPressGestureRecognizer {
                 if UIMenuController.shared.isMenuVisible {
                     webView?.setMenuVisible(false)
-                    self.menuIsVisible = false
-                    self.shouldShowBar = true
+                    didTapAwayFromHighlightMenu = true
                 }
                 return false
             }
@@ -397,6 +397,11 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
             DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
                 if (self.shouldShowBar == true && self.menuIsVisible == false) {
                     self.folioReader.readerCenter?.toggleBars()
+                }else if self.didTapAwayFromHighlightMenu || (self.webView?.didPresentNote)! {
+                    self.menuIsVisible = false
+                    self.shouldShowBar = true
+                    self.didTapAwayFromHighlightMenu = !self.didTapAwayFromHighlightMenu
+                    self.webView?.didPresentNote = false
                 }
             })
         } else if (self.readerConfig.shouldHideNavigationOnTap == true) {

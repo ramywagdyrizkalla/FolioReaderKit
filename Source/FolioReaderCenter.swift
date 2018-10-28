@@ -1398,6 +1398,8 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         present(nav, animated: true, completion: nil)
     }
     
+    internal var didPresentNote: Bool = false
+
     /**
      Present add highlight note
      */
@@ -1407,6 +1409,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         let nav = UINavigationController(rootViewController: addHighlightView)
         nav.modalPresentationStyle = .formSheet
         
+        didPresentNote = true
         present(nav, animated: true, completion: nil)
     }
 }

@@ -30,6 +30,16 @@ open class FolioReaderWebView: UIWebView {
         guard let readerContainer = readerContainer else { return FolioReader() }
         return readerContainer.folioReader
     }
+    
+    internal var didPresentNote: Bool {
+        set{
+            folioReader.readerCenter?.didPresentNote = newValue
+        }
+        
+        get{
+            return folioReader.readerCenter?.didPresentNote ?? false
+        }
+    }
 
     override init(frame: CGRect) {
         fatalError("use init(frame:readerConfig:book:) instead.")
