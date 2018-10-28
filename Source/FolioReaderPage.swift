@@ -370,6 +370,8 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
             if otherGestureRecognizer is UILongPressGestureRecognizer {
                 if UIMenuController.shared.isMenuVisible {
                     webView?.setMenuVisible(false)
+                    self.menuIsVisible = false
+                    self.shouldShowBar = true
                 }
                 return false
             }

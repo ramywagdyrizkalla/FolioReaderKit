@@ -90,7 +90,7 @@ extension Highlight {
 
         if let highlightDelegate = readerConfig.highlightDelegateConfiguration {
             highLightCoreDataSaveDelegate = highlightDelegate
-            highLightCoreDataSaveDelegate?.saveHighLight(by: self)
+            highLightCoreDataSaveDelegate?.save(highlight: self)
         }
     }
 
@@ -112,7 +112,7 @@ extension Highlight {
     }
 
     public static func removeById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String) {
-        Highlight.highLightCoreDataRetrieveDelegate?.removeHighLight(by: highlightId)
+        Highlight.highLightCoreDataRetrieveDelegate?.removeHighLight(byHighlightId: highlightId)
     }
 
     public static func getById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String) -> Highlight {
@@ -121,7 +121,7 @@ extension Highlight {
             return Highlight()
         }
         
-        return retrieveDelegate.getHighLight(by: highlightId)
+        return retrieveDelegate.getHighLight(byHighlightId: highlightId)
     }
 
     public static func updateById(withConfiguration readerConfig: FolioReaderConfig, highlightId: String, type: HighlightStyle) {
@@ -129,7 +129,7 @@ extension Highlight {
             return
         }
         Highlight.highLightCoreDataRetrieveDelegate = highlightDelegate
-        Highlight.highLightCoreDataRetrieveDelegate?.updateHighLight(by: highlightId, type: type)
+        Highlight.highLightCoreDataRetrieveDelegate?.updateHighLight(byHighlightId: highlightId, type: type)
     
     }
     
@@ -138,7 +138,7 @@ extension Highlight {
             return
         }
         Highlight.highLightCoreDataRetrieveDelegate = conf
-        Highlight.highLightCoreDataRetrieveDelegate?.updateHighLight(by: highlightId, note: note)
+        Highlight.highLightCoreDataRetrieveDelegate?.updateHighLight(byHighlightId: highlightId, note: note)
         
     }
 
@@ -154,7 +154,7 @@ extension Highlight {
             return []
         }
         
-        return retrieveDelegate.allHighlights(by: bookId, andPage: page)
+        return retrieveDelegate.allHighlights(byHighlightId: bookId, andPage: page)
  
     }
 
