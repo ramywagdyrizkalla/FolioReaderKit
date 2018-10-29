@@ -99,7 +99,7 @@ class PageViewController: UIPageViewController {
 // MARK: UIPageViewControllerDelegate
 
 extension PageViewController: UIPageViewControllerDelegate {
-
+    
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
         if finished && completed {

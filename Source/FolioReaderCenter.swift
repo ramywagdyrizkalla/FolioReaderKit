@@ -132,31 +132,8 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 
     override open func viewDidLoad() {
         super.viewDidLoad()
-
-        screenBounds = self.getScreenBounds()
         
-        setPageSize(UIApplication.shared.statusBarOrientation)
-
-        // Layout
-        collectionViewLayout.sectionInset = UIEdgeInsets.zero
-        collectionViewLayout.minimumLineSpacing = 0
-        collectionViewLayout.minimumInteritemSpacing = 0
-        collectionViewLayout.scrollDirection = .direction(withConfiguration: self.readerConfig)
-        
-        let background = folioReader.isNight(self.readerConfig.nightModeBackground, UIColor.white)
-        view.backgroundColor = background
-
-        // CollectionView
-        collectionView = UICollectionView(frame: screenBounds, collectionViewLayout: collectionViewLayout)
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.isPagingEnabled = true
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = background
-        collectionView.decelerationRate = UIScrollViewDecelerationRateFast
-        enableScrollBetweenChapters(scrollEnabled: true)
+        self.initializeCollectionView()
         view.addSubview(collectionView)
         
         if #available(iOS 11.0, *) {
@@ -200,6 +177,45 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
 
+    private func initializeCollectionView() {
+        
+        screenBounds = self.getScreenBounds()
+        setPageSize(UIApplication.shared.statusBarOrientation)
+        
+        initializeCollectionViewLayout()
+        
+        let background = folioReader.isNight(self.readerConfig.nightModeBackground, UIColor.white)
+        view.backgroundColor = background
+        
+        collectionView = UICollectionView(frame: screenBounds, collectionViewLayout: collectionViewLayout)
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.isPagingEnabled = true
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = background
+        collectionView.decelerationRate = UIScrollViewDecelerationRateFast
+        
+        enableScrollBetweenChapters(scrollEnabled: true)
+    }
+    
+    /// Added to change Scroll Direction to be from Left to Right in case of Arabic Language
+    internal func setCollectionViewSemanticContentAttribute() {
+        if #available(iOS 9.0, *) {
+            if book.metadata.language == "ar" {
+                collectionView.semanticContentAttribute = .forceRightToLeft
+            }
+        }
+    }
+    
+    private func initializeCollectionViewLayout() {
+        collectionViewLayout.sectionInset = UIEdgeInsets.zero
+        collectionViewLayout.minimumLineSpacing = 0
+        collectionViewLayout.minimumInteritemSpacing = 0
+        collectionViewLayout.scrollDirection = .direction(withConfiguration: self.readerConfig)
+    }
+    
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

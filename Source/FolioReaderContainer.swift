@@ -172,6 +172,8 @@ open class FolioReaderContainer: UIViewController {
                     if self.book.hasAudio || self.readerConfig.enableTTS {
                         self.addAudioPlayer()
                     }
+                    
+                    self.centerViewController?.setCollectionViewSemanticContentAttribute()
                     self.centerViewController?.reloadData()
                     self.folioReader.isReaderReady = true
                     self.folioReader.delegate?.folioReader?(self.folioReader, didFinishedLoading: self.book)
